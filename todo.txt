@@ -1,0 +1,27 @@
+Brainstorms:
+	Options:
+		Hide points at all times
+		Hide points until voted
+		Hide names at all times
+		Hide names until voted
+		Show all on X's-comments page
+		Hide submitter names
+		Hide submission points
+		mangle usernames?
+		On select / double-click of a username in text, reveal & highlight if it matches?
+		Reveal negative-valued comments (as they may be unjustly-downvoted)
+	Page action?
+		Allows page-specific choices, ie for your comments
+			Save by url?  By regex?
+			
+Methodology:
+	Inject CSS into page, depending on above options.
+	Inject script into page, detecting those field types, and annotating for CSS.
+		Could make same at all times, in mainifest:
+			content_scripts:[
+				{
+					matches:["urlglob"]
+					, js:["jsfiles"]
+					, run_at: "document_end" // runs when DOM is loaded, before other scripts.
+				}
+			]

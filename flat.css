@@ -1,0 +1,9 @@
+.notvoted .score{
+	display:none;
+}
+.notvoted .between{
+	display:none;
+}
+.notvoted .user{
+	display:none;
+}

@@ -1,0 +1,32 @@
+<html>
+<head>
+<script>
+var show = {};
+chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab){
+	if (tab.url.match(/^http:\/\/news.ycombinator.com\/item/)){
+		chrome.pageAction.show(tabid);
+		show[tabid] = false;
+	}
+});
+chrome.pageAction.onClicked.addListener(function(tab){
+	if (show[tab.id] == false){
+		chrome.tabs.sendRequest(tab.id, {users: true, scores:true});
+		chrome.tabs.insertCSS(tab.id, {code:
+			".notvoted .user{display:inline;}" + 
+			".notvoted .score{display:inline;}" + 
+			".notvoted .between{display:inline;}"});
+		chrome.pageAction.setTitle({tabId:tab.id, title:"Hide all names / points"});
+		show[tab.id] = true;
+	} else {
+		chrome.tabs.sendRequest(tab.id, {users: true, scores:true});
+		chrome.tabs.insertCSS(tab.id, {code:
+			".notvoted .user{display:none;}" + 
+			".notvoted .score{display:none;}" + 
+			".notvoted .between{display:none;}"});
+		chrome.pageAction.setTitle({tabId:tab.id, title:"Show all names / points"});
+		show[tab.id] = false;
+	}
+});
+</script>
+</head>
+</html>

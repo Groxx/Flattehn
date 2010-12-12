@@ -1,0 +1,89 @@
+<html>
+<head>
+	<title>Options</title>
+	<script type="text/javascript" src="jqueyr-1.4.4.min.js"></script>
+	<script type="text/javascript">
+	// rowCallback = function(rowObject, rowNum, row) or function(rowObject, rowNum, row, columns), depending on data passed.
+	var toTable = function objToTable(table, data, rowCallback){
+		// if array of arrays, spit out plain table.
+		// if array of objects, spit out headers too.
+		if(typeof(rowCallback) !== "function") rowCallback = function(){};
+		table = $(table);
+		
+		table.html("");
+		
+		if (data.length && data[0].length === undefined){
+			var thead = $("<thead>");
+			var columns = [];
+			for(prop in data[0]){
+				if(!data[0].hasOwnProperty(prop) 
+					|| typeof(data[0][prop]) !== "string"
+					|| typeof(data[0][prop]) !== "number") continue;
+
+				columns.push(prop);
+				thead.append($("<th>").text(data[0][prop]));
+			}
+			table.append(thead);
+			for(var i = 0; i < data.length; i++){
+				var trow = $("<tr>");
+				for(var c = 0; c < columns.length; c++){
+					trow.append($("<td>").text(data[i][columns[c]]));
+				}
+				rowCallback(data[i], i, trow, columns);
+				table.append(trow);
+			}
+		} else {
+			for(var i = 0; i < data.length; i++){
+				var trow = $("<tr>");
+				for(var j = 0; j < data[i].length; j++){
+					trow.append($("<td>").text(data[i][j]));
+				}
+				rowCallback(data[i], i, trow);
+				table.append(trow);
+			}
+		}
+	};
+	
+	
+	</script>
+</head>
+<body>
+	<fieldset>
+		<legend>Everywhere</legend>
+	<table>
+		<thead><th>
+			<td></td>
+			<td>Always</td>
+			<td>Until I've voted</td>
+			<td>Never</td>
+		</th></thead>
+		<tbody>
+		<tr>
+			<td>Points</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Usernames</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Submission Points</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Submission Usernames</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		</tbody>
+	</table>
+	</fieldset>
+</body>
+</html>
